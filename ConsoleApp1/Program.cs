@@ -7,6 +7,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Diagnostics;
 using System.Xml.Linq;
 using System.Collections;
+using static ConsoleApp1.Program;
 
 
 namespace ConsoleApp1
@@ -18,7 +19,6 @@ namespace ConsoleApp1
         static Human yourclass = new Human();
         static Item youritem = new Item(false, "아이템 이름", "능력치", "설명", 0, false);
 
-        static List<Item> yourinventory = new List<Item>();
         static List<Item> itemShop = new List<Item>();
 
 
@@ -31,6 +31,13 @@ namespace ConsoleApp1
             public int power;
             public int defence;
             public int gold;
+
+            public List<Item> yourinventory { get; set; }
+
+            public Human()
+                {
+                    yourinventory = new List<Item>();
+                }
         }
 
 
@@ -55,16 +62,20 @@ namespace ConsoleApp1
 
             public override string ToString() //클래스에 오버라이드 안하면 객체의 타입 정보만 출력된다.
             {
-                return $"{IsWearing} {Name} {State} {Description} 가격: {Price} {IsSoldOut}";
+                string soldText = IsSoldOut ? "구매완료" : $"{Price} G";
+                return $"{IsWearing} {Name} {State} {Description} 가격: {Price}";
             }
         }
 
 
         static void ItemShop()
         {
-            itemShop.Add(new Item( false, "- 수련자 갑옷   |", "방어력 +5   |", "수련에 도움을 주는 갑옷입니다.          |", 1000, false));
-            itemShop.Add(new Item( false, "- 무쇠 갑옷   |", "방어력 +9   |", "무쇠로 만들어져 튼튼한 갑옷입니다.          |", 2000, false));
-            itemShop.Add(new Item( false, "- 스파르타의 갑옷   |", "방어력 +15   |", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다.          |", 3500, false));
+            itemShop.Add(new Item( false, "- 수련자 갑옷       |", "방어력 +5   |", "수련에 도움을 주는 갑옷입니다.                    |", 1000, false));
+            itemShop.Add(new Item( false, "- 무쇠 갑옷         |", "방어력 +9   |", "무쇠로 만들어져 튼튼한 갑옷입니다.                |", 2000, false));
+            itemShop.Add(new Item( false, "- 스파르타의 갑옷   |", "방어력 +15  |", "스파르타의 전사들이 사용했다는 전설의 갑옷입니다. |", 3500, false));
+            itemShop.Add(new Item( false, "- 낡은 검           |", "공격력 +2   |", "쉽게 볼 수 있는 낡은 검 입니다.                   |", 600,  false));
+            itemShop.Add(new Item( false, "- 청동 도끼         |", "공격력 +5   |", "어디선가 사용됐던거 같은 도끼입니다.              |", 1500, false));
+            itemShop.Add(new Item( false, "- 스파르타의 창     |", "공격력 +7   |", "스파르타의 전사들이 사용했다는 전설의 창입니다.   |", 2500, false));
         }
 
         static void YourInventory()
@@ -90,11 +101,11 @@ namespace ConsoleApp1
 
             //값을 먼저 하나의 변수에 설정하고 밑에서 그거 띄우는 편이 낫다
 
-            Thread.Sleep(1000);
-            Console.WriteLine("당신은 눈을 떴다.");
-            Thread.Sleep(2500);
-            Console.WriteLine("아주 긴 잠에서 깨어난 듯 하다.");
-            Thread.Sleep(2500);
+            //Thread.Sleep(1000);
+            //Console.WriteLine("당신은 눈을 떴다.");
+            //Thread.Sleep(2500);
+            //Console.WriteLine("아주 긴 잠에서 깨어난 듯 하다.");
+            //Thread.Sleep(2500);
             Console.Write("당신의 성함을 입력해 주십시오: ");
             userName = Console.ReadLine();
             Console.Clear();
@@ -156,21 +167,20 @@ namespace ConsoleApp1
                 break;
             }
 
-            Console.WriteLine($"당신의 직업은 {yourclass.className}이다.");
+            Console.WriteLine($"당신의 직업은 {yourclass.className}(이)다.");
             Thread.Sleep(2500);
             Console.WriteLine();
-            Console.WriteLine("자신의 이름과 직업을 기억해내자 마치 전구 하나하나에 불이 들어오듯, 당신의 오감이 살아나기 시작한다.");
-            Thread.Sleep(2500);
+            //Console.WriteLine("자신의 이름과 직업을 기억해내자 마치 전구 하나하나에 불이 들어오듯, 당신의 오감이 살아나기 시작한다.");
+            //Thread.Sleep(1500);
             Console.WriteLine("불현듯 당신은 가까운 곳에 작은 마을이 보인다는 것을 알아차렸다.");
-            Thread.Sleep(2500);
-            Console.WriteLine("무엇을 할까?");
-            Thread.Sleep(2500);
+            Thread.Sleep(2000);
 
             string whatDoYouDo1;
 
             while (true)
             {
                 Console.Clear();
+                Console.WriteLine("무엇을 할까?");
                 Console.WriteLine(new string('=', 20));  //new string = char * int
                 Console.WriteLine("1. 상태 보기");
                 Console.WriteLine("2. 인벤토리");
@@ -256,34 +266,35 @@ namespace ConsoleApp1
             Console.WriteLine("원하시는 행동을 입력해주세요.");
             Console.Write(">>");
 
-            string back2;
-            back2 = Console.ReadLine();
+            string back;
+            back = Console.ReadLine();
 
-            if (back2 == "0") //while문으로 나가야됨
+            if (back == "0") //while문으로 나가야됨
             {
                 Console.Clear();
                 return;  //Inventory 메서드를 종료하고 호출했던 쪽으로 돌아간다!!
             }
 
-            if (back2 == "1") //장착 관리
+            if (back == "1") //장착 관리
             {
                 Console.WriteLine("인벤토리 - 장착 관리");
                 Console.WriteLine("보유 중인 아이템을 관리할 수 있습니다.");
                 Console.WriteLine();
                 Console.WriteLine("[아이템 목록]");
 
-                yourinventory.Add(itemShop[0]);
-
-                for (int i = 0; i < yourinventory.Count(); i++)
+                for (int i = 0; i < yourclass.yourinventory.Count(); i++)
                 {
-                    Item item = yourinventory[i];
-                    string equipStatus = item.IsWearing? "[E]" : "";
+                    Item item = yourclass.yourinventory[i];
+                    string equippedText = item.IsWearing ? "[E]" : "";
+                    Console.WriteLine($"[{i + 1}] {item.Name} {item.State} {item.Description} 가격: {item.Price}");
                 }
+                Console.ReadLine();
             }
         }
 
         static void ItemStore()
         {
+
             Console.Clear ();
             Console.WriteLine("상점");
             Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
@@ -295,7 +306,7 @@ namespace ConsoleApp1
 
             for (int i = 0; i < itemShop.Count; i++)
             {
-                Console.WriteLine($"{itemShop[i]}");
+                Console.WriteLine($"[{i + 1}] {itemShop[i]}");
             }
 
             Console.WriteLine("1.아이템 구매");
@@ -309,12 +320,9 @@ namespace ConsoleApp1
 
             switch (buyItem)
             {
-
-                //아이템을 산다는 행위를 어떻게 구현하지
-                //아이템을 장착한다는 (이하 동문)
-
                 case ("1"):
 
+                    Console.Clear();
                     Console.WriteLine("상점 - 아이템 구매");
                     Console.WriteLine("필요한 아이템을 얻을 수 있는 상점입니다.");
 
@@ -325,7 +333,9 @@ namespace ConsoleApp1
 
                         for (int i = 0; i < itemShop.Count; i++)
                         {
-                            Console.WriteLine($"{itemShop[i]}");
+                            Item item = itemShop[i];
+                            string priceText = item.IsSoldOut ? "구매완료" : $"{item.Price} G";
+                            Console.WriteLine($"[{i + 1}] {item.Name} {item.State} {item.Description} 가격: {item.Price}");
                         }
 
 
@@ -341,6 +351,8 @@ namespace ConsoleApp1
                     {
                         return;
                     }  
+
+                    // if 
             }
         }
     }
