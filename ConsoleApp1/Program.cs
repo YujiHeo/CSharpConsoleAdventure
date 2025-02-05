@@ -16,7 +16,8 @@ namespace ConsoleApp1
     {
 
 
-        static Human yourclass = new Human();
+        static Human yourclass = new Human(); //public class Human을 초기화하고 다른 메서드 안에서 사용할 수 있다.
+        //yourclass.(public class Human에서 선언 한 값들)을 적으면 사용 가능!
         static Item youritem = new Item(false, "아이템 이름", "능력치", "설명", 0, false);
 
         static List<Item> itemShop = new List<Item>();
@@ -77,12 +78,6 @@ namespace ConsoleApp1
             itemShop.Add(new Item( false, "- 청동 도끼         |", "공격력 +5   |", "어디선가 사용됐던거 같은 도끼입니다.              |", 1500, false));
             itemShop.Add(new Item( false, "- 스파르타의 창     |", "공격력 +7   |", "스파르타의 전사들이 사용했다는 전설의 창입니다.   |", 2500, false));
         }
-
-        static void YourInventory()
-        {
-            
-        }
-
         //Add 리스트 값 받아오기....
 
 
@@ -352,7 +347,8 @@ namespace ConsoleApp1
                         return;
                     }  
 
-                    // if 
+                case ("0"):
+                break;
             }
         }
     }
